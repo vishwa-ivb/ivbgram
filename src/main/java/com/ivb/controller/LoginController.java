@@ -13,10 +13,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.ivb.entity.Chats;
 import com.ivb.entity.Login;
-import com.ivb.entity.Message;
 import com.ivb.entity.Notification;
 import com.ivb.entity.Post;
 import com.ivb.entity.Profile;
+import com.ivb.others.Counter;
 import com.ivb.repository.LoginDAO;
 import com.ivb.repository.PostDAO;
 import com.ivb.service.MessageService;
@@ -102,6 +102,7 @@ public class LoginController {
 						}
 					}
 					m.addAttribute("chats", proArrList);
+					m.addAttribute("counter", new Counter());
 					return "home";
 				}
 				else

@@ -25,6 +25,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.ivb.entity.Message;
 import com.ivb.entity.Post;
 import com.ivb.entity.Profile;
+import com.ivb.others.Counter;
 import com.ivb.service.LoginService;
 import com.ivb.service.MessageService;
 import com.ivb.service.PostService;
@@ -63,6 +64,7 @@ public class ProfileController {
 				Collections.reverse(userposts);
 				m.addAttribute("userposts", userposts);
 				m.addAttribute("currentuser", currentuser);
+				m.addAttribute("counter", new Counter());
 				break;
 			}
 		}
@@ -82,11 +84,12 @@ public class ProfileController {
 			Collections.reverse(userposts);
 			m.addAttribute("userposts", userposts);
 			m.addAttribute("currentuser", currentuser);
+			m.addAttribute("counter", new Counter());
 			break;
 		}
 		List<Message> msgArr = mdao.getChatHistory(currentuser, account);
 		m.addAttribute("msgs", msgArr);
-		
+		m.addAttribute("counter", new Counter());
 		return "profile";
 	}
 	

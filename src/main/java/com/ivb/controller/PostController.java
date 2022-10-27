@@ -33,6 +33,7 @@ import com.ivb.entity.Login;
 import com.ivb.entity.Notification;
 import com.ivb.entity.Post;
 import com.ivb.entity.Profile;
+import com.ivb.others.Counter;
 import com.ivb.repository.LoginDAO;
 import com.ivb.service.PostService;
 import com.ivb.service.ProfileService;
@@ -179,7 +180,8 @@ public class PostController {
 			int totalnum = searchresults.size();
 			if(searchresults.isEmpty())
 			{
-				m.addAttribute("nopostresults", "<p id=\"nopostresults\">No Post found !</p>");
+				m.addAttribute("nopostresults", "No Post found !");
+				m.addAttribute("paddingpost", "padding: 80px;");
 			}
 			
 			List<Profile> searchaccountresults = profiledao.findEveryProfile(searchkey);
@@ -188,7 +190,8 @@ public class PostController {
 			int totalaccountnum = searchaccountresults.size();
 			if(searchaccountresults.isEmpty())
 			{
-				m.addAttribute("noaccountresults", "<p id=\"noaccountresults\">No Users found !</p>");
+				m.addAttribute("noaccountresults", "No Users found !");
+				m.addAttribute("paddingaccount", "padding: 80px;");
 			}
 			
 			m.addAttribute("totalaccountnum", totalaccountnum);
@@ -197,6 +200,7 @@ public class PostController {
 			m.addAttribute("searchinguser", searchinguser);
 			m.addAttribute("searchaccountresults", searchaccountresults);
 			m.addAttribute("searchresult", searchresults);
+			m.addAttribute("counter", new Counter());
 			return "search";
 	}
 	
@@ -240,6 +244,7 @@ public class PostController {
 						}
 					}
 					m.addAttribute("chats", proArrList);
+					m.addAttribute("counter", new Counter());
 				}	
 					return "home";
 	}

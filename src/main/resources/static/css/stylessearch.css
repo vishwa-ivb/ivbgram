@@ -161,8 +161,6 @@ input {
 }
 
 #nopostresults{
-	padding: 80px;
-    height: 180px;
 	font-size: xx-large;
     font-style: italic;
 }
@@ -173,12 +171,9 @@ input {
 }
 
 .everyaccount{
-	min-height: 200px;
     padding-top: 10px;
-    padding-bottom: 10px;
     font-size: xx-large;
     font-style: italic;
-    display: grid;
     align-items: center;
 }
 

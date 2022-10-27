@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.ivb.entity.Chats;
 import com.ivb.entity.Message;
 import com.ivb.entity.Profile;
+import com.ivb.others.Counter;
 import com.ivb.service.ChatsService;
 import com.ivb.service.MessageService;
 import com.ivb.service.ProfileService;
@@ -28,6 +29,8 @@ public class MessageController {
 	ProfileService pdao;
 	@Autowired
 	ChatsService chatsdao;
+	@Autowired
+	LoginController lcon;
 	
 	@RequestMapping("/message/sent")
 	public @ResponseBody ResponseEntity<?> sendMessage(Model m,@RequestParam("sender") String sender,
@@ -72,18 +75,24 @@ public class MessageController {
 	public String openMessage(Model m,@RequestParam("sender") String sender,
 			@RequestParam("receiver") String receiver)
 	{
-		Profile profile = null;
-		List<Profile> proList = pdao.findProfile(receiver);
-		for(Profile pro:proList) {
-			profile = pro;
+		if(sender.equals(lcon.loggedUser)) {
+			Profile profile = null;
+			List<Profile> proList = pdao.findProfile(receiver);
+			for(Profile pro:proList) {
+				profile = pro;
+			}
+				List<Message> msgArr = mdao.getChatHistory(sender, receiver);
+				m.addAttribute("msgs", msgArr);
+				m.addAttribute("totalmsgs", msgArr.size());
+				m.addAttribute("sender", sender);
+				m.addAttribute("fordp", profile.getPid());
+				m.addAttribute("receiver", receiver);
+				m.addAttribute("counter", new Counter());
+				return "chats";
 		}
-			List<Message> msgArr = mdao.getChatHistory(sender, receiver);
-			m.addAttribute("msgs", msgArr);
-			m.addAttribute("totalmsgs", msgArr.size());
-			m.addAttribute("sender", sender);
-			m.addAttribute("fordp", profile.getPid());
-			m.addAttribute("receiver", receiver);
+		else {
 			return "chats";
+		}
 	}
 	
 }

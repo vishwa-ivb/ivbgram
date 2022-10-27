@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="utf-8">
+<title>Chats</title>
+<script src="https://kit.fontawesome.com/8132e3a9c0.js"></script>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+  <!-- CSS only -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- JavaScript Bundle with Popper -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js"></script>
+  <link rel="stylesheet" href="/css/stylesprofile.css">
+  <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+</head>
+<body>
+
+	<div id="modal-message-background">
+      <div id="modal-message">
+      <div class="close-chat" onClick="closemsg();">+</div>
+      <input type="hidden" class="form-control" id="sender" name="sender" th:value="${sender}" readonly>
+      <input type="hidden" class="form-control" id="totalmsgs" name="totalmsgs" th:value="${totalmsgs}" readonly>
+      <input type="hidden" class="form-control" id="receiver" name="receiver" th:value="${receiver}" readonly>
+      <div style="position: fixed;font-size: x-large;font-weight: bold;top: 35px;">
+      <div style="height: 45px;width: 45px;position: fixed;top: 30px;clip-path: circle();">
+      <img id="chatdp" alt="No image available for this Post!" th:src="@{${'/profile/picture/'+fordp}}" onerror="this.src='/images/profileicon.png'" />
+      </div><div style="height: 45px;width: 45px;position: fixed;top: 35px;left: 370px;text-transform: uppercase;" th:text="${receiver}"></div></div>
+     	<div id=gotob><div id=gotob>
+     	<div id="chatarea"><div th:each="m, hh : ${msgs}" th:with="num=${counter.incrementAndGet()}">
+     	<div th:id="foralign+${num}">
+     	
+     		<div th:id="eachmsg+${num}" style="display: inline-block;padding: 10px;box-shadow: 10px 10px 25px rgb(0 0 0 / 60%);
+     		border-radius: 10px;" th:text="${m.message}"></div>
+<!--    			onMouseOver="show()" -->
+<!--    			onMouseOut="hide()" -->
+     		<span th:id="msgdate+${num}" 
+   style="display:none;" th:text="${m.messageDate}"></span>
+   </div>
+     		<input type="hidden" th:id="eachsender+${num}" th:value="${m.sender}">
+     		<script th:inline="javascript">
+     		/*<![CDATA[*/
+     		var num = /*[[${num}]]*/ 'default';
+     		function show(){
+     			document.getElementById("msgdate"+num).style.display = "flex";
+     		}
+     		function hide(){
+     			document.getElementById("msgdate"+num).style.display = "none";
+     		}
+     	var v1 = /*[[${m.sender}]]*/ 'default';
+     	var v2 = /*[[${sender}]]*/ 'default';
+     		if(v1 == v2)
+     		{
+     			document.getElementById("eachmsg"+num).style.backgroundColor= "rgba(0,0,0,.5)";
+     			document.getElementById("eachmsg"+num).style.color= "#03e9f4";
+     			document.getElementById("foralign"+num).style.textAlign= "right";
+     		}
+     		else{
+     			document.getElementById("eachmsg"+num).style.backgroundColor= "#03e9f4";
+     			document.getElementById("eachmsg"+num).style.color= "rgba(0,0,0,.5)";
+     			document.getElementById("foralign"+num).style.textAlign= "left";
+     		}
+     		/*]]>*/
+     	</script>
+     	
+     	</div>
+     	</div>
+     	<script type="text/javascript">chatarea.scrollTop = chatarea.scrollHeight;</script>
+     	<input type="text" class="input" id="message">
+     	<a class="sendbtn" onClick="send();"><i class="fa-regular fa-paper-plane" style="font-size: 25px;height: 30px;width: 50px;"></i></a>
+     	</div></div>
+      </div></div>
+      
+      <script src="/js/chat.js"></script>
+</body>
+</html>

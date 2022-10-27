@@ -1,17 +1,15 @@
-<%@ page language="java" contentType="text/html; charset=utf-8"
-    pageEncoding="ISO-8859-1"%>
 <!DOCTYPE html>
-<html lang="en" dir="ltr">
+<html lang="en" dir="ltr" xmlns:th="http://www.thymeleaf.org">
   <head>
     <meta charset="utf-8">
     <title>Login-IVB</title>
-    <link rel="stylesheet" href="resources/css/stylesSI.css">
+    <link rel="stylesheet" href="/css/stylesSI.css">
   </head>
   <body>
     <div class="login-box">
       <h2>Login</h2>
      	<span></span>
-      <p style="color:#03e9f4;font-weight: bolder; ">${no_acc}</p>
+      <p style="color:#03e9f4;font-weight: bolder;" th:text="${no_acc}"></p>
       <form id="contents" action="contents" method="post">
       		
       </form>
@@ -38,7 +36,7 @@
         <a onclick="myFunctionSU()">Create New Account</a>
      	</form>
      	
-      <script src="resources/js/index.js"></script>
+      <script src="/js/index.js"></script>
     </div>
   </body>
 </html>

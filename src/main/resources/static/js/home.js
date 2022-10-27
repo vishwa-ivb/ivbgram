@@ -269,11 +269,100 @@ function comment(clickedc) {
           var delayInMilliseconds = 2000; //3 second
           setTimeout(function() {
             window.location.reload();
+          }, delayInMilliseconds);
+          //$( "#post"+numc ).load(window.location.href + " #post"+numc,{uname} );
+          $('#comment-modal' + numc).css('display', 'none');
+          $('#commentpop' + numc).prop("disabled", false);
+
+        }
+      },
+      error: function(e) {
+        $('#loader').hide();
+        $('#error').css('display', 'block');
+        $("#error").html("Oops! something went wrong.");
+        $('#error').delay(5000).fadeOut('slow');
+        var delayInMilliseconds = 3000; //3 second
+        setTimeout(function() {
+          window.location.reload();
+        }, delayInMilliseconds);
+      }
+    });
+  }
+}
+
+function cfindicomment(clickedc) {
+  $('#ccommentpop' + clickedc).prop("disabled", true);
+  $('#ccomment-modal' + clickedc).css('display', 'flex');
+  var postIdo = $("#ccommentId" + clickedc).val();
+  var commentdatao = new FormData();
+  commentdatao.append('postIdo', postIdo);
+  $.ajax({
+    type: 'POST',
+    enctype: commentdatao,
+    data: commentdatao,
+    url: "/post/allComments",
+    processData: false,
+    contentType: false,
+    cache: false,
+    success: function(commentdatao, statusText, xhr) {
+      console.log(xhr.status);
+      if (xhr.status == "200") {
+        $('#loader').hide();
+      }
+    },
+    error: function(e) {
+      $('#loader').hide();
+    }
+  });
+}
+
+function cfindicommentclose(clickedc) {
+  $('#ccomment-modal' + clickedc).css('display', 'none');
+  $('#ccommentpop' + clickedc).prop("disabled", false);
+  $('#modal-noti-background').css('z-index', 0);
+}
+
+function ccomment(clickedc) {
+  $("#ccommentbtn" + clickedc).prop("disabled", true);
+  var postId = $("#ccommentId" + clickedc).val();
+  var comment = $("#ccomment" + clickedc).val();
+  var commentator = $("#account").val();
+  var commentdata = new FormData();
+  commentdata.append('postId', postId);
+  commentdata.append('comment', comment);
+  commentdata.append('commentator', commentator);
+  if (comment === "") {
+    $("#ccomment" + clickedc).css("border-color", "red");
+    $("#cerror_for_empty_comment" + clickedc).html("Please write something...").css("color", "red");
+    $('#ccommentbtn' + clickedc).prop("disabled", false);
+  } else {
+
+    //alert(data);
+    $.ajax({
+      type: 'POST',
+      enctype: commentdata,
+      data: commentdata,
+      url: "/post/comment",
+      processData: false,
+      contentType: false,
+      cache: false,
+      success: function(commentdata, statusText, xhr) {
+        console.log(xhr.status);
+        if (xhr.status == "200") {
+          $('#loader').hide();
+          $('#success' + clickedc).css('display', 'block');
+          $("#error").text("");
+          $("#success" + clickedc).html("Commented Succsessfully.");
+          $("#post" + clickedc).css('border', '3px solid green');
+          $('#success' + clickedc).delay(3000).fadeOut('slow');
+          var delayInMilliseconds = 2000; //3 second
+          setTimeout(function() {
+            window.location.reload();
             //$("#post").load(window.location.href + " #post");
             //$("#post").load(" #post > *");
           }, delayInMilliseconds);
-          $('#comment-modal' + numc).css('display', 'none');
-          $('#commentpop' + numc).prop("disabled", false);
+          $('#comment-modal' + clickedc).css('display', 'none');
+          $('#commentpop' + clickedc).prop("disabled", false);
 
         }
       },
@@ -345,8 +434,10 @@ function userhome() {
 var nump = 0;
 
 function showprofile(clickedp) {
-  nump = clickedp;
-  document.getElementById("profileform" + nump).submit();
+	var num = clickedp;
+	
+	console.log(num);
+  document.getElementById("profileform" + num).submit();
 }
 
 function myprofile() {
@@ -396,6 +487,9 @@ function connectnoti(numofnoti){
   //$('#noti-post').css('display', 'flex');
   var connectid = $("#connectid" + numofnoti).val();
   var postnum = $("#" + connectid).val();
+  console.log(numofnoti);
+  console.log(connectid);
+  console.log(postnum);
   $('#commentpop' + postnum).prop("disabled", true);
   $('#comment-modal' + postnum).css('display', 'flex');
   $('#modal-noti-background').css('z-index', -1);
