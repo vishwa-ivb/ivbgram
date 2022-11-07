@@ -106,6 +106,7 @@ input {
 }
 
 .search {
+	min-height: 350px;
     width: 950px;
     margin-top: 80px;
     margin-bottom: 50px;

@@ -18,4 +18,7 @@ public class LoginService {
 		dao.updatePassword(pass, uname);
 	}
 	
+	public void ivbSave(String uname, String pass, String emailId, String fname, String lname) {
+		dao.ivbSave(uname, pass, emailId, fname, lname);
+	}
 }

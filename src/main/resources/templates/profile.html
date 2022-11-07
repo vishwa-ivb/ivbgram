@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" dir="ltr" xmlns:th="http://www.thymeleaf.org">
+
 <head>
   <title>Profile</title>
 
@@ -15,46 +16,48 @@
   <link rel="stylesheet" href="/css/stylesprofile.css">
   <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
 </head>
+
 <body>
 
-	<input type="hidden" class="form-control" id="account" name="account" th:value="${currentuser}" readonly>
-	<div id="modal-profile">
-	<form id="userhome" action="/userhome" method="post">
-		<input type="hidden" class="" name="searchinguser" id="searchinguser" th:value="${currentuser}">
-	</form>
-	<div th:if="${profile.account == currentuser}">
-		<a class="homebtn" onClick="userhome();"><i class="fa-solid fa-house-user"></i></a>
-		<a type="button" class="editbtn" onClick="editprofilepop();"><i class="fas fa-edit" aria-hidden="true"
-					 style="font-size: 35px;"></i></a>
-	</div>	
-	<div th:unless="${profile.account == currentuser}">
-				<a class="backbtn" onClick="history.back();"><i class="fa-solid fa-angle-left"></i></a>
-				<a type="submit" class="messagebtn" onClick="messagepop();"><i class="fa-regular fa-message"></i></a><br><br>
-	</div>
-				
-				
-		<div class="profile-tab">
-			<form action="/message" id="msgpop" method="post">
-			<input type="hidden" class="" name="sender" id="sender" th:value="${currentuser}">
-			<div class="propicdiv">
-				<img id="propic" alt="No image available for this Post!" 
-				th:src="@{${'/profile/picture/'+profile.pid}}" 
-				onerror="this.src='/images/profileicon.png'" />
-			</div>
-			<div style="font-weight: 1000;padding: 20px;font-size: x-large;text-transform: uppercase;">
-			<input type="hidden" class="form-control" id="receiver" name="receiver" th:value="${profile.account}" readonly th:text="${profile.account}">
-				
-			</div>
-			<div th:text="${profile.about}">
-				
-			</div></form>
-			<hr>                          
-        
-        <div class="posts">
+  <input type="hidden" class="form-control" id="account" name="account" th:value="${currentuser}" readonly>
+  <div id="modal-profile">
+    <form id="userhome" action="/home" method="post">
+      <input type="hidden" class="" name="searchinguser" id="searchinguser" th:value="${currentuser}">
+      <input type="hidden" class="" name="uname" id="uname" th:value="${currentuser}">
+      <input type="hidden" class="" name="pass" id="pass" th:value="${currentuser}">
+    </form>
+    <div th:if="${profile.account == currentuser}">
+      <a class="backbtn" onClick="history.back();"><i class="fa-solid fa-angle-left"></i></a>
+      <a class="homebtn" onClick="userhome();"><i class="fa-solid fa-house-user"></i></a>
+      <a type="button" class="editbtn" onClick="editprofilepop();"><i class="fas fa-edit" aria-hidden="true" style="font-size: 35px;"></i></a>
+    </div>
+    <div th:unless="${profile.account == currentuser}">
+      <a class="backbtn" onClick="history.back();"><i class="fa-solid fa-angle-left"></i></a>
+      <a type="submit" class="messagebtn" onClick="messagepop();"><i class="fa-regular fa-message"></i></a><br><br>
+    </div>
+
+
+    <div class="profile-tab">
+      <form action="/message" id="msgpop" method="post">
+        <input type="hidden" class="" name="sender" id="sender" th:value="${currentuser}">
+        <div class="propicdiv">
+          <img id="propic" alt="No image available for this Post!" th:src="@{${'/profile/picture/'+profile.pid}}" onerror="this.src='/images/profileicon.png'" />
+        </div>
+        <div style="font-weight: 1000;padding: 20px;font-size: x-large;text-transform: uppercase;">
+          <input type="hidden" class="form-control" id="receiver" name="receiver" th:value="${profile.account}" readonly th:text="${profile.account}">
+
+        </div>
+        <div th:text="${profile.about}">
+
+        </div>
+      </form>
+      <hr>
+
+      <div class="posts">
         <h2 id="content-heading" th:text="|Posts(${profile.postscount})|"></h2>
-        
+
         <div id="post" th:with="count=${counter.get()}">
-          <div th:each = "s, hh : ${userposts}">
+          <div th:each="s, hh : ${userposts}">
             <div th:with="count=${counter.incrementAndGet()}" th:id="post+${count}" class="container-fluid">
               <div th:id="success+${count}" class="text-center" style="color:white; font-weight: bolder; background-color: green"></div>
               <div class="row">
@@ -67,194 +70,194 @@
                   <p th:text="${s.content}"></p><br>
                   <p th:text="${s.createDate}"></p><br>
                 </div>
-				
-				
-                    <div th:if="${s.account == currentuser}" class="options col-lg-2">
 
-                      <form class="commentPostbtn" action="">
-                        <input type="hidden" class="comment-form-control" th:id="commentacc+${count}" th:value="${s.id}" readonly>
-                        <input type="hidden" class="comment-form-control" th:id="${s.id}" th:value="${count}" readonly>
-                        <button th:id="commentpop+${count}" class="button" th:value="${count}" onClick="findicomment(this.value)" type="submit">Comment</button>
-                      </form>
-                      <br>
-                      <form class="editPost" action="">
-                        <input type="hidden" class="edit-form-control" th:id="editId+${count}" th:value="${s.id}" readonly>
-                        <button th:id="edit+${count}" class="button" th:value="${count}" onClick="findiedit(this.value)" type="submit">Edit</button>
-                      </form>
-                      <br>
-                      <form class="deletePost" action="">
-                        <input type="hidden" class="delete-form-control" th:id="deleteId+${count}" name="" th:value="${s.id}" readonly>
-                        <button th:id="delete+${count}" class="button" th:value="${count}" onClick="findi(this.value)" type="submit">Delete</button>
-                      </form>
 
-                    </div>
-                    <div th:id="edit-modal+${count}" style="background-color: rgba(0, 0, 0, 0.8);width: 100%;height: 100%;
+                <div th:if="${s.account == currentuser}" class="options col-lg-2">
+
+                  <form class="commentPostbtn" action="">
+                    <input type="hidden" class="comment-form-control" th:id="commentacc+${count}" th:value="${s.id}" readonly>
+                    <input type="hidden" class="comment-form-control" th:id="${s.id}" th:value="${count}" readonly>
+                    <button th:id="commentpop+${count}" class="button" th:value="${count}" onClick="findicomment(this.value)" type="submit">Comment</button>
+                  </form>
+                  <br>
+                  <form class="editPost" action="">
+                    <input type="hidden" class="edit-form-control" th:id="editId+${count}" th:value="${s.id}" readonly>
+                    <button th:id="edit+${count}" class="button" th:value="${count}" onClick="findiedit(this.value)" type="submit">Edit</button>
+                  </form>
+                  <br>
+                  <form class="deletePost" action="">
+                    <input type="hidden" class="delete-form-control" th:id="deleteId+${count}" name="" th:value="${s.id}" readonly>
+                    <button th:id="delete+${count}" class="button" th:value="${count}" onClick="findi(this.value)" type="submit">Delete</button>
+                  </form>
+
+                </div>
+                <div th:id="edit-modal+${count}" style="background-color: rgba(0, 0, 0, 0.8);width: 100%;height: 100%;
                       position: fixed;left: 0px;top: 0px;;display: none;justify-content: center;  align-items: center;">
-                      <div class="modal-contents-edit">
+                  <div class="modal-contents-edit">
 
-                        <h3>Update Post Content</h3>
-                        <form class="updatePost edit-form" action="">
-                          <input type="text" class="form-control" name="" th:value="${s.account}" readonly>
-                          <input type="hidden" class="form-control" th:id="updateId+${count}" name="" th:value="${s.id}" readonly>
-                          <div class="row">
-                            <div class="col-lg-5">
-                              <input type="text" class="form-control" name="" th:value="${s.createDate}" readonly>
-                              <textarea th:id="updateContent+${count}" class="form-control" placeholder="Write Something" rows="8" cols="40" name="" required="required" th:text="${s.content}"></textarea>
-                            </div>
-                            <div class="col-lg-7" style="align-items: center;">
-                              <img style="max-width: 75%;max-height: 350px;" alt="No image available for this Post!" th:src="@{${'image/display/'+ s.id}}" onerror="this.src='/images/no-image.png'" />
-                              <p class="edit-error_for_empty"></p>
-                            </div>
-                          </div>
-                        </form>
-                        <div style="word-spacing: 150px;">
-                          <button th:id="update+${count}" class="button" th:value="${count}" onClick="update(this.value)" type="submit">Update</button>
-                          <button class="button" th:value="${count}" onClick="findieditclose(this.value)">Cancel</button>
+                    <h3>Update Post Content</h3>
+                    <form class="updatePost edit-form" action="">
+                      <input type="text" class="form-control" name="" th:value="${s.account}" readonly>
+                      <input type="hidden" class="form-control" th:id="updateId+${count}" name="" th:value="${s.id}" readonly>
+                      <div class="row">
+                        <div class="col-lg-5">
+                          <input type="text" class="form-control" name="" th:value="${s.createDate}" readonly>
+                          <textarea th:id="updateContent+${count}" class="form-control" placeholder="Write Something" rows="8" cols="40" name="" required="required" th:text="${s.content}"></textarea>
+                        </div>
+                        <div class="col-lg-7" style="align-items: center;">
+                          <img style="max-width: 75%;max-height: 350px;" alt="No image available for this Post!" th:src="@{${'image/display/'+ s.id}}" onerror="this.src='/images/no-image.png'" />
+                          <p class="edit-error_for_empty"></p>
                         </div>
                       </div>
+                    </form>
+                    <div style="word-spacing: 150px;">
+                      <button th:id="update+${count}" class="button" th:value="${count}" onClick="update(this.value)" type="submit">Update</button>
+                      <button class="button" th:value="${count}" onClick="findieditclose(this.value)">Cancel</button>
                     </div>
+                  </div>
+                </div>
 
 
 
-                    <div th:id="comment-modal+${count}" style="background-color: rgba(0, 0, 0, 0.8);width: 100%;height: 100%;position: fixed;
+                <div th:id="comment-modal+${count}" style="background-color: rgba(0, 0, 0, 0.8);width: 100%;height: 100%;position: fixed;
                      left: 0px; top: 0px;display: none;justify-content: center;  align-items: center;">
-                      <div class="row" style="width: 100%">
-                        <h3 style="color:white;">Comments</h3>
-                        <div class="modal-comment-edit col-lg-6">
+                  <div class="row" style="width: 100%">
+                    <h3 style="color:white;">Comments</h3>
+                    <div class="modal-comment-edit col-lg-6">
 
 
-                          <form class="commentPost comment-form">
-                            <input type="text" class="form-control" name="" th:value="${s.account}" readonly>
-                            <input type="hidden" class="form-control" th:id="commentId+${count}" name="" th:value="${s.id}" readonly>
-                            <input type="hidden" class="form-control" th:id="commentatorId+${count}" name="" th:value="${s.id}" readonly>
-                            <img style="max-width: 75%;max-height: 350px;" alt="No image available for this Post!" th:src="@{${'image/display/'+s.id}}" onerror="this.src='/images/no-image.png'" />
-                            <div>
-                              <input th:id="comment+${count}" class="form-control" placeholder="Comment here" required="required" autocomplete="off">
-                              <div th:id="error_for_empty_comment+${count}" class="text-center" style="color:red;"></div>
-                            </div>
-                          </form>
-                          <div style="word-spacing: 150px;">
-                            <button th:id="commentbtn+${count}" class="button" th:value="${count}" onClick="comment(this.value)" type="submit">Comment</button>
-                            <button class="button" th:value="${count}" onClick="findicommentclose(this.value)">Close</button>
-                          </div>
+                      <form class="commentPost comment-form">
+                        <input type="text" class="form-control" name="" th:value="${s.account}" readonly>
+                        <input type="hidden" class="form-control" th:id="commentId+${count}" name="" th:value="${s.id}" readonly>
+                        <input type="hidden" class="form-control" th:id="commentatorId+${count}" name="" th:value="${s.id}" readonly>
+                        <img style="max-width: 75%;max-height: 350px;" alt="No image available for this Post!" th:src="@{${'image/display/'+s.id}}" onerror="this.src='/images/no-image.png'" />
+                        <div>
+                          <input th:id="comment+${count}" class="form-control" placeholder="Comment here" required="required" autocomplete="off">
+                          <div th:id="error_for_empty_comment+${count}" class="text-center" style="color:red;"></div>
                         </div>
-                        <div class="modal-comments col-lg-6">
-                          <div th:each = "c, hh : ${s.comments}">
-                            <div class="eachcom">
-                              <div class="row" style="margin-bottom:20px;">
-                                <div class="col-lg-6" style="text-align: left;font-weight: bolder;" th:text="${c.commentator}"></div>
-                                <div class="col-lg-6" th:text="${c.commentDate}"></div>
-                              </div>
-                              <p th:text="${c.comment}"></p>
-                            </div>
-                          </div>
-
-                        </div>
+                      </form>
+                      <div style="word-spacing: 150px;">
+                        <button th:id="commentbtn+${count}" class="button" th:value="${count}" onClick="comment(this.value)" type="submit">Comment</button>
+                        <button class="button" th:value="${count}" onClick="findicommentclose(this.value)">Close</button>
                       </div>
                     </div>
-
-
-                  
-                    <div th:unless="${s.account == currentuser}" class="options col-lg-2">
-                      <div class=comment>
-                        <form class="commentPostbtn" action="">
-                          <input type="hidden" class="comment-form-control" th:id="commentacc+${count}" th:value="${s.id}" readonly>
-                          <input type="hidden" class="comment-form-control" th:id="${s.id}" th:value="${count}" readonly>
-                          <button th:id="commentpop+${count}" class="button" th:value="${count}" onClick="findicomment(this.value)" type="submit">Comment</button>
-                        </form>
+                    <div class="modal-comments col-lg-6">
+                      <div th:each="c, hh : ${s.comments}">
+                        <div class="eachcom">
+                          <div class="row" style="margin-bottom:20px;">
+                            <div class="col-lg-6" style="text-align: left;font-weight: bolder;" th:text="${c.commentator}"></div>
+                            <div class="col-lg-6" th:text="${c.commentDate}"></div>
+                          </div>
+                          <p th:text="${c.comment}"></p>
+                        </div>
                       </div>
+
                     </div>
-                    <div th:id="comment-modal+${count}" style="background-color: rgba(0, 0, 0, 0.8);width: 100%;height: 100%;position: fixed;
+                  </div>
+                </div>
+
+
+
+                <div th:unless="${s.account == currentuser}" class="options col-lg-2">
+                  <div class=comment>
+                    <form class="commentPostbtn" action="">
+                      <input type="hidden" class="comment-form-control" th:id="commentacc+${count}" th:value="${s.id}" readonly>
+                      <input type="hidden" class="comment-form-control" th:id="${s.id}" th:value="${count}" readonly>
+                      <button th:id="commentpop+${count}" class="button" th:value="${count}" onClick="findicomment(this.value)" type="submit">Comment</button>
+                    </form>
+                  </div>
+                </div>
+                <div th:id="comment-modal+${count}" style="background-color: rgba(0, 0, 0, 0.8);width: 100%;height: 100%;position: fixed;
                      left: 0px; top: 0px;display: none;justify-content: center;  align-items: center;">
-                      <div class="row" style="width: 100%">
-                        <h3 style="color:white;">Comments</h3>
-                        <div class="modal-comment-edit col-lg-6">
+                  <div class="row" style="width: 100%">
+                    <h3 style="color:white;">Comments</h3>
+                    <div class="modal-comment-edit col-lg-6">
 
 
-                          <form class="commentPost comment-form">
-                            <input type="text" class="form-control" name="" th:value="${s.account}" readonly>
-                            <input type="hidden" class="form-control" th:id="commentId+${count}" name="" th:value="${s.id}" readonly>
-                            <img style="max-width: 75%;max-height: 350px;" alt="No image available for this Post!" th:src="@{${'image/display/'+s.id}}" onerror="this.src='/images/no-image.png'" />
-                            <div>
-                              <input th:id="comment+${count}" class="form-control" placeholder="Comment here" required="required" autocomplete="off">
-                              <div th:id="error_for_empty_comment+${count}" class="text-center" style="color:red;"></div>
-                            </div>
-                          </form>
-                          <div style="word-spacing: 150px;">
-                            <button th:id="commentbtn+${count}" class="button" th:value="${count}" onClick="comment(this.value)" type="submit">Comment</button>
-                            <button class="button" th:value="${count}" onClick="findicommentclose(this.value)">Close</button>
-                          </div>
+                      <form class="commentPost comment-form">
+                        <input type="text" class="form-control" name="" th:value="${s.account}" readonly>
+                        <input type="hidden" class="form-control" th:id="commentId+${count}" name="" th:value="${s.id}" readonly>
+                        <img style="max-width: 75%;max-height: 350px;" alt="No image available for this Post!" th:src="@{${'image/display/'+s.id}}" onerror="this.src='/images/no-image.png'" />
+                        <div>
+                          <input th:id="comment+${count}" class="form-control" placeholder="Comment here" required="required" autocomplete="off">
+                          <div th:id="error_for_empty_comment+${count}" class="text-center" style="color:red;"></div>
                         </div>
-                        <div class="modal-comments col-lg-6">
-                          <div th:each = "c, hh : ${s.comments}">
-                            <div class="eachcom">
-                              <div class="row" style="margin-bottom:20px;">
-                                <div class="col-lg-6" style="text-align: left;font-weight: bolder;" th:text="${c.commentator}"></div>
-                                <div class="col-lg-6" th:text="${c.commentDate}"></div>
-                              </div>
-                              <p th:text="${c.comment}"></p>
-                            </div>
-                          </div>
-
-                        </div>
+                      </form>
+                      <div style="word-spacing: 150px;">
+                        <button th:id="commentbtn+${count}" class="button" th:value="${count}" onClick="comment(this.value)" type="submit">Comment</button>
+                        <button class="button" th:value="${count}" onClick="findicommentclose(this.value)">Close</button>
                       </div>
                     </div>
+                    <div class="modal-comments col-lg-6">
+                      <div th:each="c, hh : ${s.comments}">
+                        <div class="eachcom">
+                          <div class="row" style="margin-bottom:20px;">
+                            <div class="col-lg-6" style="text-align: left;font-weight: bolder;" th:text="${c.commentator}"></div>
+                            <div class="col-lg-6" th:text="${c.commentDate}"></div>
+                          </div>
+                          <p th:text="${c.comment}"></p>
+                        </div>
+                      </div>
 
-                
+                    </div>
+                  </div>
+                </div>
+
+
 
               </div>
 
-            </div><hr>
             </div>
-            
-            
+            <hr>
           </div>
-        </div>
-        
-        
-			
-			<div class="proedit-modal">
-		      <div class="modal-proedit">
-		        <h3 style="font-weight: 1000;padding: 20px;font-size: x-large;">EDIT PROFILE</h3>
-		        <form id="changepropic" action="/profile/update" method="post">
-		        <div class="row">
-		  			<div class="col-lg-6">
-						<div style="clip-path: circle();margin-bottom: 30px;">
-							<img style="max-height: 300px;" id="propic" alt="No image available for this Post!" 
-							th:src="@{${'/profile/picture/'+profile.pid}}" 
-							onerror="this.src='/images/profileicon.png'" />
-						</div>
-						<input type="file" class="form-control" placeholder="" name="propicupload" id="propicupload" required="required">
-					</div>
-					<div class="col-lg-6">
-					<div>
-						<input type="text" class="form-control" name="user" id="user" th:value="${profile.account}" readonly>
-		         		<textarea class="form-control" placeholder="About" name="aboutinput"  style="height: 200px;" id="aboutinput" th:text="${profile.about}"></textarea>
-		         		<input type="text" class="form-control" name="emailinput" id="emailinput" th:value="${profile.email}">
-					</div>
-					<div class="row">
-		  				<div class="col-lg-6">
-							<a id="submitpropic" style="text-decoration: none;" class="glowbtn" type="button" onClick="profileupdate();">Save</a>
-						</div>
-						<div class="col-lg-6">
-							<a class="close glowbtn" style="text-decoration: none;" type="button">Cancel</a>
-						</div>
-					</div>
-					</div>
-				</div>	
-				</form>
-				
 
-				<p id="successupload"></p>
-		      </div>
-		    </div>
-			
-			
-		</div>
-	</div>
-	
-	
-      
-	<script src="/js/profile.js"></script>
+
+        </div>
+      </div>
+
+
+
+      <div class="proedit-modal">
+        <div class="modal-proedit">
+          <h3 style="font-weight: 1000;padding: 20px;font-size: x-large;">EDIT PROFILE</h3>
+          <form id="changepropic" action="/profile/update" method="post">
+            <div class="row">
+              <div class="col-lg-6">
+                <div style="clip-path: circle();margin-bottom: 30px;">
+                  <img style="max-height: 300px;" id="propic" alt="No image available for this Post!" th:src="@{${'/profile/picture/'+profile.pid}}" onerror="this.src='/images/profileicon.png'" />
+                </div>
+                <input type="file" class="form-control" placeholder="" name="propicupload" id="propicupload" required="required">
+              </div>
+              <div class="col-lg-6">
+                <div>
+                  <input type="text" class="form-control" name="user" id="user" th:value="${profile.account}" readonly>
+                  <textarea class="form-control" placeholder="About" name="aboutinput" style="height: 200px;" id="aboutinput" th:text="${profile.about}"></textarea>
+                  <input type="text" class="form-control" name="emailinput" id="emailinput" th:value="${profile.email}">
+                </div>
+                <div class="row">
+                  <div class="col-lg-6">
+                    <a id="submitpropic" style="text-decoration: none;" class="glowbtn" type="button" onClick="profileupdate();">Save</a>
+                  </div>
+                  <div class="col-lg-6">
+                    <a class="close glowbtn" style="text-decoration: none;" type="button">Cancel</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </form>
+
+
+          <p id="successupload"></p>
+        </div>
+      </div>
+
+
+    </div>
+  </div>
+
+
+
+  <script src="/js/profile.js"></script>
 </body>
+
 </html>

@@ -1,5 +1,20 @@
 function myFunctionSI() {
-	document.getElementById("si").submit();
+	var uname = $("#uname").val();
+	var pass = $("#pass").val();
+	var loginData = new FormData();
+	loginData.append("uname",uname);
+	loginData.append("pass",pass);
+	if(uname === "" || pass === ""){
+		$("#errormsg").html("Every Fields are Mandatory!");
+	}
+	else if(pass.length != 4){
+		$("#errormsg").html("Password contains Four Characters!");
+	}
+	else{
+		document.getElementById("si").submit();
+	}
+//		 $( "#ed" ).load(window.location.href + " #ed");
+	
 }
 function myFunctionSU() {
     document.getElementById("su").submit();

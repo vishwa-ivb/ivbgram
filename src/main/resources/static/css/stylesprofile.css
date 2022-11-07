@@ -30,7 +30,7 @@ hr{
 .homebtn{
 	position: fixed;
     left: 40px;
-    top: 140px;
+    top: 150px;
     font-size: 30px;
     background-color: rgba(0,0,0,.5);
     border: 2px solid #03e9f4;

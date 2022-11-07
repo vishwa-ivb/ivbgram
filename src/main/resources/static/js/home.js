@@ -1,11 +1,12 @@
+var uname = $("#account").val();
+var pass = uname;
+
 document.getElementById('getpop').addEventListener("click", function() {
   document.querySelector('.input-modal').style.display = "flex";
 });
 
 document.querySelector('.close').addEventListener("click", function() {
   document.querySelector('.input-modal').style.display = "none";
-  
-
 });
 
 document.querySelector('.close-noti').addEventListener("click", function() {
@@ -54,6 +55,7 @@ $(document).ready(function() {
         success: function(data, statusText, xhr) {
           console.log(xhr.status);
           if (xhr.status == "200") {
+			
             $('#loader').hide();
             $("#form")[0].reset();
             $('#success').css('display', 'block');
@@ -61,7 +63,7 @@ $(document).ready(function() {
             $("#successupload").html("Posted Succsessfully.");
             $('#success').delay(3000).fadeOut('slow');
             document.querySelector('.input-modal').style.display = "none";
-            var delayInMilliseconds = 2000; //3 second
+            var delayInMilliseconds = 500; //3 second
             setTimeout(function() {
               window.location.reload();
             }, delayInMilliseconds);
@@ -174,9 +176,7 @@ function update(clickedu) {
         $('#success' + numu).delay(3000).fadeOut('slow');
         var delayInMilliseconds = 2000; //3 second
         setTimeout(function() {
-          window.location.reload();
-          //$("#post").load(window.location.href + " #post");
-          //$("#post").load(" #post > *");
+          $( "#post" ).load(window.location.href + " #post",{uname,pass} );
         }, delayInMilliseconds);
         $('#edit-modal' + numu).css('display', 'none');
         $('#edit' + numu).prop("disabled", false);
@@ -231,6 +231,33 @@ function findicommentclose(clickedc) {
   $('#commentpop' + numc).prop("disabled", false);
   $('#modal-noti-background').css('z-index', 0);
 }
+//async function firstFunction(numc){
+//  	$( "#post"+numc ).load(window.location.href + " #post"+numc,{uname,pass} );
+//	$('#comment-modal' + numc).css('display', 'none');
+//	$('#commentpop' + numc).prop("disabled", false);
+//  return;
+//};
+//async function secondFunction(numc){
+//  await firstFunction(numc);
+//  $('#commentpop' + numc).prop("disabled", true)
+//  $('#comment-modal' + numc).css('display', 'flex');
+//};
+
+//function firstFunction(_callback,numc){
+//    $( "#post"+numc ).load(window.location.href + " #post"+numc,{uname,pass} );
+//	$('#comment-modal' + numc).css('display', 'none');
+//	$('#commentpop' + numc).prop("disabled", false);
+//	console.log("1")
+//    _callback();    
+//}
+
+//function secondFunction(){
+//    firstFunction(function() {
+//        console.log('huzzah, I\'m done!');
+//    },numc);   
+//    $('#commentpop' + numc).prop("disabled", true)
+//  $('#comment-modal' + numc).css('display', 'flex'); 
+//}
 
 function comment(clickedc) {
   numc = clickedc;
@@ -260,19 +287,15 @@ function comment(clickedc) {
       success: function(commentdata, statusText, xhr) {
         console.log(xhr.status);
         if (xhr.status == "200") {
-          $('#loader').hide();
-          $('#success' + numc).css('display', 'block');
-          $("#error").text("");
-          $("#success" + numc).html("Commented Succsessfully.");
-          $("#post" + numc).css('border', '3px solid green');
-          $('#success' + numc).delay(3000).fadeOut('slow');
-          var delayInMilliseconds = 2000; //3 second
-          setTimeout(function() {
-            window.location.reload();
-          }, delayInMilliseconds);
-          //$( "#post"+numc ).load(window.location.href + " #post"+numc,{uname} );
-          $('#comment-modal' + numc).css('display', 'none');
-          $('#commentpop' + numc).prop("disabled", false);
+			$( "#post"+numc ).load(window.location.href + " #post"+numc,{uname,pass} );
+	         $('#comment-modal' + numc).css('display', 'none');
+	         $('#commentpop' + numc).prop("disabled", false);
+	         var delayInMilliseconds = 1000; 
+	        setTimeout(function() {
+	         $('#commentpop' + numc).prop("disabled", true);
+			 $('#comment-modal' + numc).css('display', 'flex');
+	        }, delayInMilliseconds);
+			 
 
         }
       },
@@ -519,4 +542,8 @@ function connectnoti(numofnoti){
 function connectmsgpop(formnum) {
   document.getElementById("form"+formnum).submit();
   //chatarea.scrollTop = chatarea.scrollHeight;
+}
+
+function logout(){
+	document.getElementById("logoutid").submit();
 }

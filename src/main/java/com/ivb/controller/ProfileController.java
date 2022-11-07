@@ -75,6 +75,9 @@ public class ProfileController {
 	@RequestMapping("/showotherprofile")
 	public String veiwotherProfile(Model m,@RequestParam("account") String account,@RequestParam("currentuser") String currentuser)
 	{
+		String loggedUser = loginc.loggedUser;
+		if(loggedUser.equals(currentuser))
+		{
 		List <Profile> profiles = dao.findProfile(account);
 		for(Profile p : profiles)
 		{
@@ -90,6 +93,7 @@ public class ProfileController {
 		List<Message> msgArr = mdao.getChatHistory(currentuser, account);
 		m.addAttribute("msgs", msgArr);
 		m.addAttribute("counter", new Counter());
+		}
 		return "profile";
 	}
 	
